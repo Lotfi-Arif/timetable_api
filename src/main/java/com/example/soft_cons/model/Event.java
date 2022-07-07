@@ -1,27 +1,19 @@
 package com.example.soft_cons.model;
 
-import java.util.List;
+import java.sql.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 @Data
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -32,21 +24,21 @@ public class Event {
     private String name;
     private String day;
     private String time;
-    @Getter public String timetable_id;
+    private Date createdAt;
+    private Date updatedAt;
+    @Column(name = "timetable_id", nullable=false)
+    private long timetable_id;
+    // @Getter public String timetable_id;
 
 
-    @OneToOne
-    @JoinColumn(name="id",referencedColumnName = "timetable_id")
-    @JsonProperty("timetable_data")
+    @ManyToOne
+    @JoinColumn(name="timetable_id", referencedColumnName = "id", insertable=false, updatable=false)
+    // @JsonProperty("timetable_data")
     private TimeTable timetable_data;
 
-    // @Column(name = "timetable_id", nullable = false)
-    // public String getTimetableId() {
-    //    return timetable_id;
-    // }
-    
-
-   
+    public long getTimetableId(){
+        return timetable_id;
+    }
 
     // public Event() {
 

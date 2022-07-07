@@ -52,14 +52,12 @@ public class TimeTableController {
                 List<Event> allevent= eventRepository.findAll();
                 List<Event> temp = new ArrayList<>();
                 for (Event event : allevent) {
-                    if(event.timetable_id.equals(timetableId.toString()) ){
+                    if(event.getTimetableId()==timetableId ){
                         temp.add(event);
                     }
                 }
                 return temp;
     }
-
-    
 
 //     @GetMapping("/timetables_full/{id}")
 //     public ResponseEntity<Event> getTimeTableByIdd(@PathVariable(value = "id") Long timetableId)
@@ -74,27 +72,27 @@ public class TimeTableController {
         return timetableRepository.save(timetable);
     }
 
-//     @PutMapping("/timetables/{id}")
-//     public ResponseEntity<TimeTable> updateTimeTable(@PathVariable(value = "id") Long timetableId,
-//                                              @Valid @RequestBody TimeTable timetableDetails) throws ResourceNotFoundException {
-//         TimeTable timetable = timetableRepository.findById(timetableId)
-//                 .orElseThrow(() -> new ResourceNotFoundException("TimeTable not found for this id :: " + timetableId));
+    @PutMapping("/timetables/{id}")
+    public ResponseEntity<TimeTable> updateTimeTable(@PathVariable(value = "id") Long timetableId,
+                                             @Valid @RequestBody TimeTable timetableDetails) throws ResourceNotFoundException {
+        TimeTable timetable = timetableRepository.findById(timetableId)
+                .orElseThrow(() -> new ResourceNotFoundException("TimeTable not found for this id :: " + timetableId));
 
-//         timetable.setSemester(timetableDetails.getSemester());
-//         timetable.setTitle(timetableDetails.getTitle());
-//         final TimeTable updatedTimeTable = timetableRepository.save(timetable);
-//         return ResponseEntity.ok(updatedTimeTable);
-//     }
+        timetable.setSemester(timetableDetails.getSemester());
+        timetable.setTitle(timetableDetails.getTitle());
+        final TimeTable updatedTimeTable = timetableRepository.save(timetable);
+        return ResponseEntity.ok(updatedTimeTable);
+    }
 
-//     @DeleteMapping("/timetables/{id}")
-//     public Map<String, Boolean> deleteTimeTable(@PathVariable(value = "id") Long timetableId)
-//             throws ResourceNotFoundException {
-//         TimeTable timetable = timetableRepository.findById(timetableId)
-//                 .orElseThrow(() -> new ResourceNotFoundException("TimeTable not found for this id :: " + timetableId));
+    @DeleteMapping("/timetables/{id}")
+    public Map<String, Boolean> deleteTimeTable(@PathVariable(value = "id") Long timetableId)
+            throws ResourceNotFoundException {
+        TimeTable timetable = timetableRepository.findById(timetableId)
+                .orElseThrow(() -> new ResourceNotFoundException("TimeTable not found for this id :: " + timetableId));
 
-//         timetableRepository.delete(timetable);
-//         Map<String, Boolean> response = new HashMap<>();
-//         response.put("deleted", Boolean.TRUE);
-//         return response;
-//     }
+        timetableRepository.delete(timetable);
+        Map<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+        return response;
+    }
  }
