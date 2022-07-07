@@ -40,6 +40,8 @@ public class EventController {
                 .orElseThrow(() -> new ResourceNotFoundException("Event not found for this id :: " + eventId));
         return ResponseEntity.ok().body(event);
     }
+    
+    
 
     @PostMapping("/events")
     public Event createEvent(@Valid @RequestBody Event event) {
